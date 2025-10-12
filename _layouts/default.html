@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}
+    </title>
+    <meta
+      name="description"
+      content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ '/assets/css/style.css' | relative_url }}"
+    />
+    <link rel="canonical" href="{{ page.url | absolute_url }}" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="{{ site.title }}"
+      href="{{ '/feed.xml' | relative_url }}"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <nav class="site-nav">
+          <a href="{{ '/' | relative_url }}" class="site-title"
+            >{{ site.title }}</a
+          >
+          <ul class="nav-links">
+            <li><a href="{{ '/' | relative_url }}">Home</a></li>
+            <li><a href="{{ '/posts/' | relative_url }}">Posts</a></li>
+            <li><a href="{{ '/about/' | relative_url }}">About</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="container">{{ content }}</div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; {{ 'now' | date: "%Y" }} {{ site.author }}. All rights
+          reserved.
+        </p>
+        <p>
+          Powered by
+          <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> and hosted
+          on
+          <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
