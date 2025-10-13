@@ -56,10 +56,7 @@
       content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}"
     />
     <meta name="theme-color" content="#ffffff" />
-    <link
-      rel="stylesheet"
-      href="{{ '/assets/css/main.css' | relative_url }}"
-    />
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
     <link rel="canonical" href="{{ page.url | absolute_url }}" />
     <link
       rel="alternate"
@@ -68,8 +65,75 @@
       href="{{ '/feed.xml' | relative_url }}"
     />
     <script src="{{ '/assets/js/theme.js' | relative_url }}" defer></script>
+    <script>
+      // Update note theme adaptation and positioning
+      function updateNoteTheme() {
+        const updateNote = document.querySelector(".update-note");
+        if (!updateNote) return;
+
+        const isDark =
+          document.documentElement.getAttribute("data-theme") === "dark" ||
+          document.documentElement.classList.contains("auto-dark");
+
+        if (isDark) {
+          updateNote.style.color = "#808080";
+        } else {
+          updateNote.style.color = "#999999";
+        }
+      }
+
+      function positionUpdateNote() {
+        const updateNote = document.querySelector(".update-note");
+        const siteHeader = document.querySelector(".site-header");
+
+        if (!updateNote || !siteHeader) return;
+
+        const headerRect = siteHeader.getBoundingClientRect();
+        const headerCenter = headerRect.top + headerRect.height / 2;
+        const noteHeight = updateNote.offsetHeight;
+
+        // Position the note at the center of the header, accounting for its own height
+        updateNote.style.top = headerCenter - noteHeight / 2 + "px";
+      }
+
+      // Run on load and when theme changes
+      document.addEventListener("DOMContentLoaded", function () {
+        updateNoteTheme();
+        positionUpdateNote();
+      });
+
+      document.addEventListener("themeChanged", updateNoteTheme);
+
+      // Also check periodically for theme changes and reposition on scroll/resize
+      setInterval(function () {
+        updateNoteTheme();
+        positionUpdateNote();
+      }, 1000);
+
+      // Reposition on scroll and resize
+      window.addEventListener("scroll", positionUpdateNote);
+      window.addEventListener("resize", positionUpdateNote);
+    </script>
   </head>
   <body>
+    <span
+      class="update-note"
+      style="
+        position: fixed;
+        top: 1rem;
+        left: 10px;
+        font-size: 0.7rem;
+        color: #999999;
+        opacity: 0.7;
+        font-weight: 300;
+        letter-spacing: 0.3px;
+        z-index: 1000;
+        margin: 0;
+        display: inline-block;
+        font-style: italic;
+      "
+      >🚀 Rapidly updating</span
+    >
     <header class="site-header">
       <div class="container">
         <nav class="site-nav">
