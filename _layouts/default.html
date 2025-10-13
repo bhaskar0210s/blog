@@ -1,6 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script>
+      // Prevent theme flicker by applying theme immediately
+      (function () {
+        try {
+          const storedTheme = localStorage.getItem("theme") || "auto";
+          const html = document.documentElement;
+
+          // Apply theme immediately
+          html.setAttribute("data-theme", storedTheme);
+
+          // For auto theme, check system preference
+          if (storedTheme === "auto") {
+            const prefersDark = window.matchMedia(
+              "(prefers-color-scheme: dark)"
+            ).matches;
+            if (prefersDark) {
+              html.classList.add("auto-dark");
+              html.classList.remove("auto-light");
+            } else {
+              html.classList.add("auto-light");
+              html.classList.remove("auto-dark");
+            }
+          }
+
+          // Update meta theme-color
+          const colors = {
+            light: "#ffffff",
+            dark: "#1a1a1a",
+            auto: window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "#1a1a1a"
+              : "#ffffff",
+          };
+
+          let metaThemeColor = document.querySelector(
+            'meta[name="theme-color"]'
+          );
+          if (metaThemeColor) {
+            metaThemeColor.content = colors[storedTheme] || colors.auto;
+          }
+        } catch (e) {
+          // Fallback to light theme if localStorage fails
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
@@ -10,6 +55,7 @@
       name="description"
       content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}"
     />
+    <meta name="theme-color" content="#ffffff" />
     <link
       rel="stylesheet"
       href="{{ '/assets/css/style.css' | relative_url }}"
@@ -21,6 +67,7 @@
       title="{{ site.title }}"
       href="{{ '/feed.xml' | relative_url }}"
     />
+    <script src="{{ '/assets/js/theme.js' | relative_url }}" defer></script>
   </head>
   <body>
     <header class="site-header">
