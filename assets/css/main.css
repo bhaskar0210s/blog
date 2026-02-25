@@ -196,20 +196,25 @@ body {
 }
 
 .hero-title {
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
 }
 
 .hero-subtitle {
-  font-size: 1.2rem;
+  font-size: 1rem;
   opacity: 0.9;
+  font-weight: 400;
 }
 
 .posts h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: var(--text-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 1.5rem;
 }
 
 .post-list {
@@ -217,41 +222,49 @@ body {
 }
 
 .post-item {
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  background: var(--bg-secondary);
-  border-radius: 8px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease,
-    background-color 0.3s ease;
+  margin-bottom: 1rem;
+  padding: 1.5rem 1.75rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    border-color 0.2s ease, background-color 0.3s ease;
+  box-shadow: 0 1px 3px var(--shadow-light);
 }
 
 .post-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px var(--shadow-light);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px var(--shadow-light);
+  border-color: var(--border-color);
 }
 
 .post-link {
   text-decoration: none;
   color: inherit;
+  display: block;
 }
 
-.post-title {
-  font-size: 1.5rem;
+.post-item .post-title {
+  font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: var(--text-primary);
+  letter-spacing: -0.01em;
+  line-height: 1.4;
 }
 
 .post-excerpt {
   color: var(--text-secondary);
-  margin-bottom: 1rem;
-  line-height: 1.5;
+  margin-bottom: 0.75rem;
+  line-height: 1.55;
+  font-size: 0.9375rem;
 }
 
 .post-date {
-  font-size: 0.9rem;
+  font-size: 0.8125rem;
   color: var(--text-tertiary);
   font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
 .view-all {
@@ -278,17 +291,18 @@ body {
 
 .post-header {
   margin-bottom: 2rem;
-  padding-bottom: 1rem;
+  padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--border-color);
   transition: border-color 0.3s ease;
 }
 
-.post-title {
-  font-size: 2.5rem;
-  font-weight: 700;
+.post .post-title {
+  font-size: 1.75rem;
+  font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 1rem;
-  line-height: 1.2;
+  margin-bottom: 0.75rem;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
 }
 
 .post-meta {
@@ -553,15 +567,15 @@ body {
   }
 
   .hero-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 0.9375rem;
   }
 
-  .post-title {
-    font-size: 2rem;
+  .post .post-title {
+    font-size: 1.5rem;
   }
 
   .post-nav {
@@ -580,10 +594,13 @@ body {
 
 /* Posts Page Styles */
 .posts-page h1 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  color: var(--text-primary);
-  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 1.5rem;
+  text-align: left;
 }
 
 .posts-list {
@@ -592,28 +609,32 @@ body {
 }
 
 .post-summary {
-  background: var(--bg-secondary);
-  padding: 2rem;
-  margin-bottom: 2rem;
-  border-radius: 8px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: var(--bg-primary);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    border-color 0.2s ease;
   border: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px var(--shadow-light);
 }
 
 .post-summary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px var(--shadow-light);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px var(--shadow-light);
 }
 
 .post-summary .post-title {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .post-summary .post-title a {
   color: var(--text-primary);
   text-decoration: none;
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
 }
 
 .post-summary .post-title a:hover {
@@ -621,9 +642,9 @@ body {
 }
 
 .post-summary .post-meta {
-  margin-bottom: 1rem;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-tertiary);
+  font-size: 0.8125rem;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
@@ -632,15 +653,16 @@ body {
 
 .post-summary .post-excerpt {
   color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 1rem;
+  line-height: 1.55;
+  margin-bottom: 0.75rem;
+  font-size: 0.9375rem;
 }
 
 .read-more {
   color: var(--accent-primary);
   text-decoration: none;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 
 .read-more:hover {
@@ -662,15 +684,15 @@ body {
   }
 
   .hero-title {
-    font-size: 1.75rem;
+    font-size: 1.375rem;
   }
 
   .posts-page h1 {
-    font-size: 2rem;
+    font-size: 0.7rem;
   }
 
   .post-summary {
-    padding: 1.5rem;
+    padding: 1.25rem 1.5rem;
   }
 
   .post-summary .post-meta {
