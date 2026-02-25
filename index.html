@@ -15,9 +15,12 @@ title: Home
         <input type="text" id="post-search" class="search-input" placeholder="Search articles..." aria-label="Search articles">
       </div>
       <div class="category-filters">
-        <button type="button" class="category-pill active" data-category="all">All</button>
+        <button type="button" class="category-pill category-pill-all active" data-category="all">All</button>
         {% for category in site.categories %}
-          <button type="button" class="category-pill" data-category="{{ category[0] | downcase }}">{{ category[0] }}</button>
+          <button type="button" class="category-pill" data-category="{{ category[0] | downcase }}">
+            <span class="category-pill-label">{{ category[0] }}</span>
+            <span class="category-pill-remove" aria-label="Deselect">×</span>
+          </button>
         {% endfor %}
       </div>
     </div>

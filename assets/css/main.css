@@ -329,6 +329,9 @@ body {
 }
 
 .category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   padding: 0.5rem 1rem;
   font-size: 0.8125rem;
   font-weight: 500;
@@ -349,6 +352,31 @@ body {
   background: var(--accent-primary);
   border-color: var(--accent-primary);
   color: var(--text-inverse);
+}
+
+.category-pill-remove {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.15rem;
+  width: 1rem;
+  height: 1rem;
+  font-size: 1rem;
+  line-height: 1;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.category-pill.active .category-pill-remove {
+  display: inline-flex;
+}
+
+.category-pill.active .category-pill-remove:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.category-pill-all .category-pill-remove {
+  display: none;
 }
 
 /* Post grid - 2 cards per row */

@@ -8,7 +8,7 @@
 
   if (!searchInput && categoryPills.length === 0) return;
 
-  let activeCategory = "all";
+  const activeCategories = new Set();
 
   function matchesSearch(element, query) {
     if (!query.trim()) return true;
@@ -18,11 +18,21 @@
     return title.includes(q) || categories.includes(q);
   }
 
-  function matchesCategory(element, category) {
-    if (category === "all") return true;
-    const cat = (category || "").toLowerCase();
-    const categories = (element.dataset.postCategories || "").toLowerCase().split("|").map((c) => c.trim());
-    return categories.some((c) => c === cat);
+  function matchesCategory(element) {
+    if (activeCategories.size === 0) return true;
+    const postCats = (element.dataset.postCategories || "").toLowerCase().split("|").map((c) => c.trim());
+    return activeCategories.size > 0 && postCats.some((c) => activeCategories.has(c));
+  }
+
+  function updatePillStates() {
+    categoryPills.forEach((pill) => {
+      const cat = pill.dataset.category || "all";
+      if (cat === "all") {
+        pill.classList.toggle("active", activeCategories.size === 0);
+      } else {
+        pill.classList.toggle("active", activeCategories.has(cat));
+      }
+    });
   }
 
   function updateVisibility() {
@@ -31,7 +41,7 @@
 
     postCards.forEach((card) => {
       const show =
-        matchesSearch(card, query) && matchesCategory(card, activeCategory);
+        matchesSearch(card, query) && matchesCategory(card);
       card.style.display = show ? "" : "none";
       if (show) visibleCount++;
     });
@@ -48,9 +58,17 @@
 
   categoryPills.forEach((pill) => {
     pill.addEventListener("click", function () {
-      categoryPills.forEach((p) => p.classList.remove("active"));
-      pill.classList.add("active");
-      activeCategory = pill.dataset.category || "all";
+      const cat = pill.dataset.category || "all";
+      if (cat === "all") {
+        activeCategories.clear();
+      } else {
+        if (activeCategories.has(cat)) {
+          activeCategories.delete(cat);
+        } else {
+          activeCategories.add(cat);
+        }
+      }
+      updatePillStates();
       updateVisibility();
     });
   });
