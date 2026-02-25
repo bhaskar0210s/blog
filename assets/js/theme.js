@@ -13,6 +13,7 @@ class ThemeManager {
   init() {
     this.createThemeToggle();
     this.applyTheme(this.currentTheme);
+    this.updateToggleUI();
     this.setupSystemThemeListener();
 
     // Debug: Log initial state
@@ -54,55 +55,24 @@ class ThemeManager {
     const nav = document.querySelector(".nav-links");
     if (!nav) return;
 
+    const sunIcon = `<svg class="theme-icon theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>`;
+    const moonIcon = `<svg class="theme-icon theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+
     const themeToggle = document.createElement("div");
     themeToggle.className = "theme-toggle";
     themeToggle.innerHTML = `
-      <button class="theme-toggle-btn" aria-label="Theme selector">
-        <span class="theme-current">Auto</span>
+      <button class="theme-toggle-btn" aria-label="Toggle color theme" type="button">
+        <span class="theme-icon-wrap">${sunIcon}${moonIcon}</span>
       </button>
-      <div class="theme-dropdown">
-        <button class="theme-dropdown-option" data-theme="auto">Auto</button>
-        <button class="theme-dropdown-option" data-theme="light">Light</button>
-        <button class="theme-dropdown-option" data-theme="dark">Dark</button>
-      </div>
     `;
 
-    // Insert as the last element in nav-links
     nav.appendChild(themeToggle);
 
-    // Add click listeners
     const toggleBtn = themeToggle.querySelector(".theme-toggle-btn");
-    const dropdown = themeToggle.querySelector(".theme-dropdown");
-    const options = themeToggle.querySelectorAll(".theme-dropdown-option");
-
-    // Toggle dropdown on button click
     toggleBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      this.toggleDropdown();
-    });
-
-    // Handle option selection
-    options.forEach((option) => {
-      option.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const theme = option.dataset.theme;
-        this.setTheme(theme);
-        this.closeDropdown();
-      });
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener("click", (e) => {
-      if (!themeToggle.contains(e.target)) {
-        this.closeDropdown();
-      }
-    });
-
-    // Close dropdown on escape key
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        this.closeDropdown();
-      }
+      const nextTheme = this.isDarkMode() ? "light" : "dark";
+      this.setTheme(nextTheme);
     });
   }
 
@@ -181,56 +151,16 @@ class ThemeManager {
   }
 
   updateToggleUI() {
-    const currentSpan = document.querySelector(".theme-current");
-    const options = document.querySelectorAll(".theme-dropdown-option");
+    const iconWrap = document.querySelector(".theme-icon-wrap");
+    if (!iconWrap) return;
 
-    // Update the current theme display
-    if (currentSpan) {
-      currentSpan.textContent =
-        this.currentTheme.charAt(0).toUpperCase() + this.currentTheme.slice(1);
-    }
+    const sunIcon = iconWrap.querySelector(".theme-icon-sun");
+    const moonIcon = iconWrap.querySelector(".theme-icon-moon");
+    if (!sunIcon || !moonIcon) return;
 
-    // Update active state of dropdown options
-    options.forEach((option) => {
-      option.classList.remove("active");
-      if (option.dataset.theme === this.currentTheme) {
-        option.classList.add("active");
-      }
-    });
-  }
-
-  toggleDropdown() {
-    const dropdown = document.querySelector(".theme-dropdown");
-    const toggleBtn = document.querySelector(".theme-toggle-btn");
-
-    if (dropdown && toggleBtn) {
-      const isOpen = dropdown.classList.contains("open");
-      if (isOpen) {
-        this.closeDropdown();
-      } else {
-        this.openDropdown();
-      }
-    }
-  }
-
-  openDropdown() {
-    const dropdown = document.querySelector(".theme-dropdown");
-    const toggleBtn = document.querySelector(".theme-toggle-btn");
-
-    if (dropdown && toggleBtn) {
-      dropdown.classList.add("open");
-      toggleBtn.classList.add("open");
-    }
-  }
-
-  closeDropdown() {
-    const dropdown = document.querySelector(".theme-dropdown");
-    const toggleBtn = document.querySelector(".theme-toggle-btn");
-
-    if (dropdown && toggleBtn) {
-      dropdown.classList.remove("open");
-      toggleBtn.classList.remove("open");
-    }
+    const dark = this.isDarkMode();
+    sunIcon.classList.toggle("active", !dark);
+    moonIcon.classList.toggle("active", dark);
   }
 
   setupSystemThemeListener() {
@@ -240,6 +170,7 @@ class ThemeManager {
       if (this.currentTheme === "auto") {
         this.applyTheme("auto");
         this.updateMetaThemeColor("auto");
+        this.updateToggleUI();
       }
     });
   }
