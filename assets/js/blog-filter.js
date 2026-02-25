@@ -3,7 +3,6 @@
 
   const searchInput = document.getElementById("post-search");
   const categoryPills = document.querySelectorAll(".category-pill");
-  const featuredPost = document.querySelector(".featured-post");
   const postCards = document.querySelectorAll(".post-card");
   const noResults = document.getElementById("no-results");
 
@@ -29,14 +28,6 @@
   function updateVisibility() {
     const query = searchInput ? searchInput.value : "";
     let visibleCount = 0;
-
-    if (featuredPost) {
-      const showFeatured =
-        matchesSearch(featuredPost, query) &&
-        matchesCategory(featuredPost, activeCategory);
-      featuredPost.style.display = showFeatured ? "" : "none";
-      if (showFeatured) visibleCount++;
-    }
 
     postCards.forEach((card) => {
       const show =
