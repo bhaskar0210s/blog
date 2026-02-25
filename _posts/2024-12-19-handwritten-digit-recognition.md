@@ -2,6 +2,7 @@
 layout: post
 title: "Handwritten Digit Recognition: From PyTorch to Web Application"
 date: 2024-12-19 00:00:00 -0000
+categories: [Machine Learning, PyTorch]
 ---
 
 ## Project Overview

@@ -1,34 +1,7 @@
 ---
 layout: default
-title: All Posts
+title: Posts
 ---
-
-<div class="posts-page">
-  <h1>All Posts</h1>
-
-  {% if site.posts.size > 0 %}
-  <div class="posts-list">
-    {% for post in site.posts %}
-    <article class="post-summary">
-      <h2 class="post-title">
-        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-      </h2>
-      <div class="post-meta">
-        <time datetime="{{ post.date | date_to_xmlschema }}">
-          {{ post.date | date: "%B %d, %Y" }}
-        </time>
-        {% if post.author %}
-        <span class="post-author">by {{ post.author }}</span>
-        {% endif %}
-      </div>
-      <div class="post-excerpt">
-        {{ post.excerpt | strip_html | truncate: 200 }}
-      </div>
-      <a href="{{ post.url | relative_url }}" class="read-more">Read More</a>
-    </article>
-    {% endfor %}
-  </div>
-  {% else %}
-  <p>No posts available yet. Check back soon!</p>
-  {% endif %}
-</div>
+<meta http-equiv="refresh" content="0; url={{ '/' | relative_url }}">
+<script>window.location.href = "{{ '/' | relative_url }}";</script>
+<p>Redirecting to <a href="{{ '/' | relative_url }}">home</a>...</p>

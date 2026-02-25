@@ -2,6 +2,7 @@
 layout: post
 title: "WhatsApp Reminders: Automated Scheduling with TypeScript and GitHub Actions"
 date: 2026-02-25 00:00:00 -0000
+categories: [Automation, TypeScript]
 ---
 
 ## Introduction
