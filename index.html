@@ -8,7 +8,7 @@ title: Home
     {% assign latest_post = site.posts.first %}
 
     <!-- Featured: Latest Post -->
-    <article class="featured-post" data-post-title="{{ latest_post.title | downcase }}" data-post-categories="{{ latest_post.categories | join: ' ' | downcase }}">
+    <article class="featured-post" data-post-title="{{ latest_post.title | downcase }}" data-post-categories="{{ latest_post.categories | join: '|' | downcase }}">
       <a href="{{ latest_post.url | relative_url }}" class="featured-post-link">
         <span class="featured-label">Latest</span>
         <h2 class="featured-title">{{ latest_post.title }}</h2>
@@ -49,7 +49,7 @@ title: Home
     <div class="posts-grid">
       {% for post in site.posts %}
         {% unless post.url == latest_post.url %}
-        <article class="post-card" data-post-title="{{ post.title | downcase }}" data-post-categories="{{ post.categories | join: ' ' | downcase }}">
+        <article class="post-card" data-post-title="{{ post.title | downcase }}" data-post-categories="{{ post.categories | join: '|' | downcase }}">
           <a href="{{ post.url | relative_url }}" class="post-card-link">
             <h3 class="post-card-title">{{ post.title }}</h3>
             <p class="post-card-excerpt">

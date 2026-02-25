@@ -21,8 +21,9 @@
 
   function matchesCategory(element, category) {
     if (category === "all") return true;
-    const categories = (element.dataset.postCategories || "").toLowerCase().split(/\s+/);
-    return categories.includes(category.toLowerCase());
+    const cat = (category || "").toLowerCase();
+    const categories = (element.dataset.postCategories || "").toLowerCase().split("|").map((c) => c.trim());
+    return categories.some((c) => c === cat);
   }
 
   function updateVisibility() {
