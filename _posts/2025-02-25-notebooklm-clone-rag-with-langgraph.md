@@ -48,14 +48,14 @@ The project combines **LangGraph** for orchestration, **Supabase** for vector st
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Frontend | Next.js 16, React 19, Tailwind CSS, React Markdown, KaTeX |
-| Backend | LangGraph, LangGraph SDK |
-| Embeddings | Vertex AI Gemini Embedding 001 (768d) or Ollama nomic-embed-text |
-| Chat Models | Vertex AI Gemini 2.5 Flash or Ollama gemma3:4b |
-| Vector Store | Supabase (pgvector) |
-| PDF Parsing | pdf-parse, LangChain PDFLoader |
+| Layer        | Technology                                                       |
+| ------------ | ---------------------------------------------------------------- |
+| Frontend     | Next.js 16, React 19, Tailwind CSS, React Markdown, KaTeX        |
+| Backend      | LangGraph, LangGraph SDK                                         |
+| Embeddings   | Vertex AI Gemini Embedding 001 (768d) or Ollama nomic-embed-text |
+| Chat Models  | Vertex AI Gemini 2.5 Flash or Ollama gemma3:4b                   |
+| Vector Store | Supabase (pgvector)                                              |
+| PDF Parsing  | pdf-parse, LangChain PDFLoader                                   |
 
 ## Project Structure
 
@@ -272,14 +272,14 @@ PDFs are sent as base64 from the browser. The backend decodes to a buffer, write
 
 ## Environment Variables
 
-| Variable | Purpose |
-|----------|---------|
-| `SUPABASE_URL` | Supabase project URL |
-| `SUPABASE_SERVICE_ROLE_KEY` | Service role key for server-side access |
-| `GOOGLE_CLOUD_PROJECT_ID` | GCP project for Vertex AI |
-| `GOOGLE_CLOUD_LOCATION` | Region (e.g., asia-south1) |
-| `USE_OLLAMA` | Set to `"true"` for local Ollama |
-| `OLLAMA_BASE_URL` | Ollama server URL (default localhost:11434) |
+| Variable                        | Purpose                                       |
+| ------------------------------- | --------------------------------------------- |
+| `SUPABASE_URL`                  | Supabase project URL                          |
+| `SUPABASE_SERVICE_ROLE_KEY`     | Service role key for server-side access       |
+| `GOOGLE_CLOUD_PROJECT_ID`       | GCP project for Vertex AI                     |
+| `GOOGLE_CLOUD_LOCATION`         | Region (e.g., asia-south1)                    |
+| `USE_OLLAMA`                    | Set to `"true"` for local Ollama              |
+| `OLLAMA_BASE_URL`               | Ollama server URL (default localhost:11434)   |
 | `NEXT_PUBLIC_LANGGRAPH_API_URL` | LangGraph server URL (default localhost:2024) |
 
 ## Supabase Schema
