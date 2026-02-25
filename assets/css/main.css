@@ -180,7 +180,7 @@ body {
 
 /* Home page - Portfolio blog style */
 .home-page {
-  max-width: 720px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -316,34 +316,80 @@ body {
   color: var(--text-inverse);
 }
 
-/* Post grid */
+/* Post grid - 3 cards per row */
 .posts-grid {
   display: grid;
-  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
 }
 
 .post-card {
-  padding: 1.5rem 1.75rem;
   background: var(--bg-primary);
   border: 1px solid var(--border-color);
   border-radius: 12px;
+  overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 1px 3px var(--shadow-light);
 }
 
 .post-card:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   box-shadow: 0 8px 24px var(--shadow-light);
 }
 
 .post-card-link {
   text-decoration: none;
   color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.post-card-image {
+  aspect-ratio: 16 / 10;
+  background: var(--bg-tertiary);
+  overflow: hidden;
+}
+
+.post-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 
+.post-card-image-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    var(--bg-tertiary) 0%,
+    var(--border-color) 50%,
+    var(--bg-secondary) 100%
+  );
+  opacity: 0.8;
+}
+
+[data-theme="dark"] .post-card-image-placeholder,
+[data-theme="auto"].auto-dark .post-card-image-placeholder {
+  background: linear-gradient(
+    135deg,
+    var(--bg-tertiary) 0%,
+    var(--border-color) 40%,
+    var(--bg-secondary) 100%
+  );
+}
+
+.post-card-body {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .post-card-title {
-  font-size: 1.0625rem;
+  font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: var(--text-primary);
@@ -353,9 +399,10 @@ body {
 
 .post-card-excerpt {
   color: var(--text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   line-height: 1.55;
   margin-bottom: 0.75rem;
+  flex: 1;
 }
 
 .post-card-meta {
@@ -700,6 +747,11 @@ body {
   .featured-title {
     font-size: 1.25rem;
   }
+
+  .posts-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
 }
 
 /* Posts Page Styles */
@@ -813,5 +865,14 @@ body {
 
   .search-input {
     font-size: 16px; /* prevents zoom on iOS */
+  }
+
+  .posts-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .post-card-body {
+    padding: 1rem 1.25rem;
   }
 }

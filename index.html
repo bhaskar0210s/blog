@@ -51,6 +51,14 @@ title: Home
         {% unless post.url == latest_post.url %}
         <article class="post-card" data-post-title="{{ post.title | downcase }}" data-post-categories="{{ post.categories | join: '|' | downcase }}">
           <a href="{{ post.url | relative_url }}" class="post-card-link">
+            <div class="post-card-image">
+              {% if post.image %}
+                <img src="{{ post.image | relative_url }}" alt="" loading="lazy">
+              {% else %}
+                <span class="post-card-image-placeholder" aria-hidden="true"></span>
+              {% endif %}
+            </div>
+            <div class="post-card-body">
             <h3 class="post-card-title">{{ post.title }}</h3>
             <p class="post-card-excerpt">
               {{ post.excerpt | strip_html | truncate: 120 }}
@@ -64,6 +72,7 @@ title: Home
                   {% endfor %}
                 </span>
               {% endif %}
+            </div>
             </div>
           </a>
         </article>
