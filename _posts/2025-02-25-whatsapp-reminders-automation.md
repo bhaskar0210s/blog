@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "WhatsApp Reminders: Automated Scheduling with TypeScript and GitHub Actions"
-date: 2025-02-25 00:00:00 -0000
+date: 2026-02-25 00:00:00 -0000
 ---
 
 ## Introduction
@@ -60,19 +60,19 @@ whatsapp-reminders/
 Reminders are strongly typed in TypeScript. The core types:
 
 ```typescript
-type ReminderType = 'text' | 'poll';
-type WeekdayCode = 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat';
+type ReminderType = "text" | "poll";
+type WeekdayCode = "sun" | "mon" | "tue" | "wed" | "thu" | "fri" | "sat";
 
 type ReminderSchedule =
-  | { kind: 'daily'; time: string }
-  | { kind: 'weekly'; day: WeekdayCode; time: string }
-  | { kind: 'monthly'; day: number; time: string }
-  | { kind: 'yearly'; month: number; day: number; time: string };
+  | { kind: "daily"; time: string }
+  | { kind: "weekly"; day: WeekdayCode; time: string }
+  | { kind: "monthly"; day: number; time: string }
+  | { kind: "yearly"; month: number; day: number; time: string };
 
 interface TextReminder {
   id: string;
   title: string;
-  type: 'text';
+  type: "text";
   schedule: ReminderSchedule;
   message: string;
   target?: string;
@@ -84,7 +84,7 @@ interface TextReminder {
 interface PollReminder {
   id: string;
   title: string;
-  type: 'poll';
+  type: "poll";
   schedule: ReminderSchedule;
   question: string;
   options: string[];
@@ -95,12 +95,12 @@ interface PollReminder {
 
 ### Schedule Types
 
-| Kind     | Parameters | Example                          |
-|----------|------------|----------------------------------|
-| `daily`  | `time`     | Every day at 06:00               |
-| `weekly` | `day`, `time` | Every Monday at 06:00         |
-| `monthly`| `day`, `time` | 1st of each month at 06:00   |
-| `yearly` | `month`, `day`, `time` | Feb 25 at 06:00 |
+| Kind      | Parameters             | Example                    |
+| --------- | ---------------------- | -------------------------- |
+| `daily`   | `time`                 | Every day at 06:00         |
+| `weekly`  | `day`, `time`          | Every Monday at 06:00      |
+| `monthly` | `day`, `time`          | 1st of each month at 06:00 |
+| `yearly`  | `month`, `day`, `time` | Feb 25 at 06:00            |
 
 Times use 24-hour format (`HH:MM`).
 
@@ -147,6 +147,7 @@ The configuration file has three top-level fields:
 ```
 
 Targets can be:
+
 - **Direct**: `"target": "919999999999"` (phone or group ID)
 - **Env-based**: `"targetEnv": "FAMILY_GROUP_ID"` (reads from environment)
 
@@ -155,31 +156,35 @@ Targets can be:
 The scheduler uses `Intl.DateTimeFormat` with `formatToParts` to get timezone-aware date parts:
 
 ```typescript
-export function getLocalDateParts(timezone: string, date: Date = new Date()): LocalDateParts {
-  const formatter = new Intl.DateTimeFormat('en-US', {
+export function getLocalDateParts(
+  timezone: string,
+  date: Date = new Date()
+): LocalDateParts {
+  const formatter = new Intl.DateTimeFormat("en-US", {
     timeZone: timezone,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    weekday: 'short',
-    hour: '2-digit',
-    minute: '2-digit',
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    weekday: "short",
+    hour: "2-digit",
+    minute: "2-digit",
     hour12: false,
   });
 
   const parts = formatter.formatToParts(date);
   return {
-    year: toNumber(parts, 'year'),
-    month: toNumber(parts, 'month'),
-    day: toNumber(parts, 'day'),
+    year: toNumber(parts, "year"),
+    month: toNumber(parts, "month"),
+    day: toNumber(parts, "day"),
     weekday: resolveWeekday(parts),
-    hour: toNumber(parts, 'hour'),
-    minute: toNumber(parts, 'minute'),
+    hour: toNumber(parts, "hour"),
+    minute: toNumber(parts, "minute"),
   };
 }
 ```
 
 A reminder is due when:
+
 1. **Date matches**: For weekly → weekday; monthly → day; yearly → month + day; daily → always
 2. **Time matches**: Current time is within `REMINDER_DUE_TOLERANCE_MINUTES` of the scheduled time (default 2 minutes)
 
@@ -189,19 +194,22 @@ This tolerance handles GitHub Actions occasionally running a minute or two late.
 
 Text and poll content support placeholders:
 
-| Placeholder | Example |
-|-------------|---------|
-| `{{date}}`  | 2025-02-25 |
-| `{{weekday}}` | Wednesday |
-| `{{month}}` | 02 |
-| `{{day}}`   | 25 |
-| `{{year}}`  | 2025 |
-| `{{time}}`  | 06:00 |
+| Placeholder   | Example    |
+| ------------- | ---------- |
+| `{{date}}`    | 2025-02-25 |
+| `{{weekday}}` | Wednesday  |
+| `{{month}}`   | 02         |
+| `{{day}}`     | 25         |
+| `{{year}}`    | 2025       |
+| `{{time}}`    | 06:00      |
 
 Implementation uses a simple regex replacement:
 
 ```typescript
-export function applyTemplate(template: string, context: TemplateContext): string {
+export function applyTemplate(
+  template: string,
+  context: TemplateContext
+): string {
   return template.replace(/\{\{\s*([a-zA-Z_]+)\s*\}\}/g, (_, key: string) => {
     const value = context[key as keyof TemplateContext];
     return value ?? `{{${key}}}`;
@@ -215,10 +223,14 @@ The project uses [Whapi](https://whapi.cloud) as the WhatsApp gateway. The clien
 
 ```typescript
 export class WhapiClient {
-  async sendTextMessage(payload: { to: string; body: string; mentions?: string[] }): Promise<void> {
-    await this.request('/messages/text', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+  async sendTextMessage(payload: {
+    to: string;
+    body: string;
+    mentions?: string[];
+  }): Promise<void> {
+    await this.request("/messages/text", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         to: payload.to,
         body: payload.body,
@@ -227,12 +239,16 @@ export class WhapiClient {
     });
   }
 
-  async sendPoll(payload: { to: string; title: string; options: string[] }): Promise<void> {
+  async sendPoll(payload: {
+    to: string;
+    title: string;
+    options: string[];
+  }): Promise<void> {
     const form = new FormData();
-    form.append('to', payload.to);
-    form.append('title', payload.title);
-    form.append('options', JSON.stringify(payload.options));
-    await this.request('/messages/poll', { method: 'POST', body: form });
+    form.append("to", payload.to);
+    form.append("title", payload.title);
+    form.append("options", JSON.stringify(payload.options));
+    await this.request("/messages/poll", { method: "POST", body: form });
   }
 }
 ```
@@ -248,7 +264,7 @@ name: WhatsApp Reminders
 
 on:
   schedule:
-    - cron: '0 6 * * *'   # Daily at 06:00 UTC
+    - cron: "0 6 * * *" # Daily at 06:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -257,7 +273,7 @@ jobs:
     environment: env
     env:
       REMINDERS_FILE: reminder.json
-      REMINDER_DUE_TOLERANCE_MINUTES: '2'
+      REMINDER_DUE_TOLERANCE_MINUTES: "2"
       WHAPI_API_TOKEN: ${{ secrets.WHAPI_API_TOKEN || secrets.WHAPI_TOKEN }}
       WHAPI_BASE_URL: ${{ secrets.WHAPI_BASE_URL }}
       WHAPI_GROUP_ID: ${{ secrets.WHAPI_GROUP_ID }}
@@ -266,13 +282,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci && npm run build
       - run: node dist/scripts/reminders/send-reminders.js
 ```
 
 Required secrets:
+
 - `WHAPI_API_TOKEN` (or `WHAPI_TOKEN`)
 - `WHAPI_GROUP_ID` (default target)
 - Any `targetEnv` values used in `reminder.json` (e.g., `FAMILY_GROUP_ID`)
@@ -280,12 +297,14 @@ Required secrets:
 ## Local Setup
 
 1. **Install and build**:
+
    ```bash
    npm install
    npm run build
    ```
 
 2. **Configure environment** (copy `.env.example` to `.env`):
+
    ```
    WHAPI_API_TOKEN=your_token
    WHAPI_GROUP_ID=default_group_id
@@ -295,6 +314,7 @@ Required secrets:
    ```
 
 3. **Discover group IDs** (if needed):
+
    ```bash
    npm run reminders:list-groups
    ```
